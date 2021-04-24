@@ -20,7 +20,3 @@ class DnsblockUpdateApp:
         result = merge(self.config.blocklists)
         with open(self.config.dnsmasq_path, "w") as file:
             file.writelines(result)
-
-if __name__ == "__main__":
-    app = DnsblockUpdateApp()
-    app.run()

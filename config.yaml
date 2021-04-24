@@ -1,9 +1,0 @@
-dnsmasq: 
-  path: "result.conf"
-repository:
-  path: "./repo/"
-blocklists:
-  - name: "notracking"
-    url: https://raw.githubusercontent.com/notracking/hosts-blocklists/master/dnsmasq/dnsmasq.blacklist.txt
-  - name: "oisd"
-    url: https://dnsmasq.oisd.nl/basic/

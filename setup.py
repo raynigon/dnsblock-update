@@ -37,9 +37,7 @@ setup(
     keywords='dnsmasq',
     project_urls={
         'Bug Reports': 'https://github.com/raynigon/dnsblock-update/issues',
-        'Funding': 'https://donate.pypi.org',
-        'Say Thanks!': 'http://saythanks.io/to/example',
-        'Source': 'https://github.com/pypa/sampleproject/',
+        'Source': 'https://github.com/raynigon/dnsblock-update/',
     },
     python_requires='>=3.6, <4',
     install_requires=[

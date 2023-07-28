@@ -5,7 +5,7 @@ import json
 
 from typing import List
 
-BLOCKLIST_ENTRY_PATTERN=re.compile(r"address=/[A-z0-9-_.]*/#")
+BLOCKLIST_ENTRY_PATTERN=re.compile(r"(?:address=/[A-z0-9-_.]*/)|(?:server=/[A-z0-9-_.]*/)")
 
 class Blocklist:
 
@@ -21,6 +21,10 @@ class Blocklist:
         if os.path.exists(repo_path):
             self.__load_from_repo(repo_path)
             response=requests.head(self.url)
+            while response.status_code > 299 and response.status_code < 400:
+                response=requests.get(response.headers["location"])
+            if "etag" not in response.headers.keys():
+                raise Exception(f"Unable to check repository for {self.url} due to missing etag")
             etag = response.headers["etag"].replace("\"", "")
             if self.etag != etag:
                 print(f"E-Tag mismatch, stored {self.etag}, current {etag}")
@@ -40,6 +44,12 @@ class Blocklist:
 
     def __download(self, repository):
         response=requests.get(self.url)
+        while response.status_code > 299 and response.status_code < 400:
+            response=requests.get(response.headers["location"])
+        if response.status_code > 299:
+            raise Exception(f"Unable to download from {self.url} due to unexpected status {response.status_code}")
+        if "etag" not in response.headers.keys():
+            raise Exception(f"Unable to download from {self.url} due to missing etag")
         self.etag = response.headers["etag"].replace("\"", "")
         lines = response.text.splitlines()
         for line in lines:
@@ -55,6 +65,8 @@ class Blocklist:
         self.__reinvalidate_cache(repository)
 
     def __reinvalidate_cache(self, repository):
+        if not os.path.exists(repository):
+            os.makedirs(repository)
         repo_path = os.path.join(repository, self.name+".json")
         data = {
             "name": self.name,

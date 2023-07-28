@@ -8,8 +8,9 @@
             "name": "Python: Run App",
             "type": "python",
             "request": "launch",
-            "program": "src/run.py",
-            "args": ["config.yaml"],
+            "module": "dnsblock_update",
+            "cwd": "${workspaceFolder}/test",
+            "args": ["${workspaceFolder}/test/config/config.yaml"],
             "console": "integratedTerminal"
         }
     ]

@@ -18,7 +18,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
     name='dnsblock_update',
-    version='0.0.1',
+    version='0.0.2',
     author='Simon Schneider',
     author_email='dev@raynigon.com',
     description='Blocklist Updater for DNS Masq',
